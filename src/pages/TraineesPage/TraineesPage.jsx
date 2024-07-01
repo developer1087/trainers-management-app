@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { TraineesContext } from "../../context/TraineesContext";
+import { TraineesContext, TraineesProvider } from "../../context/TraineesContext";
 import SingleTrainee from "../../components/SingleTrainee/SingleTrainee";
 import AddTrainee from "../../components/AddTrainee/AddTrainee";
 
@@ -32,4 +32,11 @@ const TraineesPage = () => {
   );
 };
 
-export default TraineesPage;
+const TraineesWrapper = () => {
+  return <TraineesProvider>
+    <TraineesPage />
+  </TraineesProvider>
+}
+
+
+export default TraineesWrapper;

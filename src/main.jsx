@@ -7,9 +7,7 @@ import { TraineesProvider } from "./context/TraineesContext.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <TraineesProvider>
-        <App />
-      </TraineesProvider>
+      <App />
     </AuthProvider>
   </React.StrictMode>
 );
