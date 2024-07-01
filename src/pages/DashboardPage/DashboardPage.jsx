@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { TraineesContext } from "../../context/TraineesContext";
+import { TraineesContext, TraineesProvider } from "../../context/TraineesContext";
 import SingleTrainee from "../../components/SingleTrainee/SingleTrainee";
 import AddTrainee from "../../components/AddTrainee/AddTrainee";
 import { Link } from "react-router-dom";
@@ -12,8 +12,6 @@ const DashboardPage = () => {
   const { traineesData, addNewTrainee, addNew, setAddNew } =
     useContext(TraineesContext);
 
-  console.log(user);
-  console.log(traineesData);
 
   const handleAddTrainee = () => {
     addNewTrainee;
@@ -35,5 +33,10 @@ const DashboardPage = () => {
     </div>
   );
 };
+const DashboardWrapper = () => {
+  return <TraineesProvider>
+    <DashboardPage/> 
+  </TraineesProvider>
+}
 
-export default DashboardPage;
+export default DashboardWrapper;
