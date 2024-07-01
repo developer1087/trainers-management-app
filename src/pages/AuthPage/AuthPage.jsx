@@ -3,6 +3,8 @@ import { auth, app } from "../../config/config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
+  getAuth,
 } from "firebase/auth";
 import { useNavigate } from "react-router";
 
@@ -26,6 +28,11 @@ const AuthPage = () => {
           // Signed up
           const user = userCredential.user;
           setUser(user);
+          onAuthStateChanged((user) => {
+            if (!user) {
+              window.location.href = "/login";
+            }
+          });
           navigate("/dashboardPage");
           console.log(user);
           // ...
@@ -40,7 +47,15 @@ const AuthPage = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          setUser(user);
+          const auth = getAuth();
+          onAuthStateChanged(auth, (user) => {
+            if (user) {
+              setUser(user);
+            } else {
+              // User is signed out
+              // ...
+            }
+          });
           navigate("/dashboardPage");
           console.log(user);
           // ...

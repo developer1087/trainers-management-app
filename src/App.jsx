@@ -4,6 +4,8 @@ import "./CSS/reset.css";
 import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
+import TraineesPage from "./pages/TraineesPage/TraineesPage";
+import SingleTraineePage from "./pages/SingleTraineePage/SingleTraineePage";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,14 @@ const router = createBrowserRouter([
   {
     path: "dashboardPage",
     element: <DashboardPage />,
+  },
+  {
+    path: "traineesPage",
+    element: <TraineesPage />,
+  },
+  {
+    path: "singleTraineePage",
+    element: <SingleTraineePage />,
   },
 ]);
 

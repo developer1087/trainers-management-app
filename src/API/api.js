@@ -1,22 +1,49 @@
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../config/config";
+import { getAuth } from "firebase/auth";
 
 export const traineesList = async () => {
-  const trainees = await getDocs(collection(db, "trainees"));
-  traineesList.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
-  });
+  const auth = getAuth();
+  const user = auth.currentUser;
+  console.log(user);
+  if (user) {
+    const traineesCollection = collection(db, `users/${user.uid}/trainees`);
+    const traineesSnapshot = await getDocs(traineesCollection);
+    const trainees = traineesSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-  return trainees;
+    // Optional: Log the trainees
+    trainees.forEach((trainee) => {
+      console.log(`${trainee.id} => `, trainee);
+    });
+
+    return trainees;
+  } else {
+    throw new Error("User not authenticated");
+  }
 };
 
-try {
-  const docRef = await addDoc(collection(db, "trainees"), {
-    first: "Ada",
-    last: "Lovelace",
-    born: 1815,
-  });
-  console.log("Document written with ID: ", docRef.id);
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
+export const addTrainee = async (traineeData) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (user) {
+    try {
+      const docRef = await addDoc(
+        collection(db, `users/${user.uid}/trainees`),
+        traineeData
+      );
+      console.log("Document written with ID:", docRef.id);
+      return docRef.id;
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      throw error;
+    }
+  } else {
+    throw new Error("User not authenticated");
+  }
+};
+
+// export const updateTrainee = async();

@@ -1,0 +1,15 @@
+.main-dash-container {
+  width: 350px;
+  margin: auto;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  border: 1px black solid;
+  border-radius: 15px;
+}
+
+.main-dash-container * {
+  margin: 0.25rem;
+}

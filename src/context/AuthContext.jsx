@@ -7,21 +7,7 @@ const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isNew, setIsNew] = useState(true);
   const [user, setUser] = useState(null);
-
-  const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
-      const uid = user.uid;
-      setUser(user);
-
-      // ...
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
+  console.log(user);
 
   return (
     <AuthContext.Provider value={{ isLoading, isNew, setIsNew, user, setUser }}>
