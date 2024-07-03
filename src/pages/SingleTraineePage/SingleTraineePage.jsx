@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import "./SingleTraineePage.css";
 import { useLocation } from "react-router-dom";
 import EditForm from "../../components/EditForm/EditForm";
+import {
+  TraineesContext,
+  TraineesProvider,
+} from "../../context/TraineesContext";
 
 const SingleTraineePage = () => {
   const location = useLocation();
+  console.log(location);
   const [isEdit, setIsEdit] = useState(false);
+
   const { state } = location;
-  console.log("Location state:", state); // Debugging line
+  useEffect(() => {}, [state]);
+  const { updateTrainee, traineesData } = useContext(TraineesContext);
 
   if (!state) {
     return (
@@ -19,7 +26,8 @@ const SingleTraineePage = () => {
     );
   }
 
-  const { fname, lname } = state;
+  const { fname, lname, id } = state;
+
   const handleEdit = () => {
     setIsEdit(true);
   };
@@ -32,9 +40,25 @@ const SingleTraineePage = () => {
       </p>
       <button onClick={handleEdit}>Edit</button>
       <button onClick={handleDelete}>Delete</button>
-      {isEdit && <EditForm setIsEdit={setIsEdit} />}
+      {isEdit && (
+        <EditForm
+          setIsEdit={setIsEdit}
+          updateTrainee={updateTrainee}
+          fname={fname}
+          lname={lname}
+          id={id}
+        />
+      )}
     </div>
   );
 };
 
-export default SingleTraineePage;
+const SingleTraineeWrapper = () => {
+  return (
+    <TraineesProvider>
+      <SingleTraineePage />
+    </TraineesProvider>
+  );
+};
+
+export default SingleTraineeWrapper;

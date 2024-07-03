@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState, useMemo } from "react";
-import { traineesList, addTrainee } from "../API/api";
+import { traineesList, addTrainee, changeTrainee } from "../API/api";
 
 const TraineesContext = createContext();
 
@@ -33,9 +33,32 @@ const TraineesProvider = ({ children }) => {
     }
   };
 
+  const updateTrainee = async (updatedTrainee, traineeId) => {
+    try {
+      await changeTrainee(updatedTrainee, traineeId);
+      setTraineesData((prevTrainees) =>
+        prevTrainees.map((trainee) =>
+          trainee.id === traineeId
+            ? { id: traineeId, ...updatedTrainee }
+            : trainee
+        )
+      );
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   return (
     <TraineesContext.Provider
-      value={{ traineesData, loading, error, addNewTrainee, addNew, setAddNew }}
+      value={{
+        traineesData,
+        loading,
+        error,
+        addNewTrainee,
+        addNew,
+        setAddNew,
+        updateTrainee,
+      }}
     >
       {children}
     </TraineesContext.Provider>

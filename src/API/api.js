@@ -1,4 +1,11 @@
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  setDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../config/config";
 import { getAuth } from "firebase/auth";
 
@@ -43,6 +50,24 @@ export const addTrainee = async (traineeData) => {
     }
   } else {
     throw new Error("User not authenticated");
+  }
+};
+
+// export const changeTrainee = async (updatedTrainee, traineeId) => {
+//   console.log(updatedTrainee, "aa");
+//   console.log(traineeId, "aa");
+//   await setDoc(doc(db, "trainees", traineeId), updatedTrainee);
+// };
+
+export const changeTrainee = async (updatedTrainee, traineeId) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  try {
+    const traineeRef = doc(db, `users/${user.uid}/trainees`, traineeId); // Create a document reference
+    await setDoc(traineeRef, updatedTrainee); // Set the document with the updated data
+    console.log("Trainee updated successfully");
+  } catch (error) {
+    console.error("Error updating trainee:", error);
   }
 };
 

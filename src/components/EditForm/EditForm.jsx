@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import "./EditForm.css";
 
-const EditForm = ({ setIsEdit }) => {
-  const [fName, setFname] = useState("");
-  const [lName, setLname] = useState("");
+const EditForm = ({ updateTrainee, setIsEdit, fname, lname, id }) => {
+  const [fName, setFname] = useState(fname);
+  const [lName, setLname] = useState(lname);
   const handleEditSubmit = (e) => {
     e.preventDefault();
+    const updatedTrainee = {
+      fname: fName,
+      lname: lName,
+    };
+    updateTrainee(updatedTrainee, id);
     setIsEdit(false);
   };
   return (
