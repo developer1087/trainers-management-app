@@ -1,7 +1,10 @@
 import React from "react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { TraineesContext, TraineesProvider } from "../../context/TraineesContext";
+import {
+  TraineesContext,
+  TraineesProvider,
+} from "../../context/TraineesContext";
 import SingleTrainee from "../../components/SingleTrainee/SingleTrainee";
 import AddTrainee from "../../components/AddTrainee/AddTrainee";
 
@@ -23,20 +26,25 @@ const TraineesPage = () => {
           return <SingleTrainee key={trainee.id} trainee={trainee} />;
         })}
       </div>
-      <div className="add-trainee">
-        <p>Add A New Trainee:</p>
-        <button onClick={handleAddTrainee}>+</button>
+      <div className="add-trainee-container">
+        {!addNew && (
+          <button onClick={handleAddTrainee} className="btn">
+            Add A New Trainee:
+          </button>
+        )}
+
+        {addNew && <AddTrainee addNewTrainee={addNewTrainee} />}
       </div>
-      {addNew && <AddTrainee addNewTrainee={addNewTrainee} />}
     </div>
   );
 };
 
 const TraineesWrapper = () => {
-  return <TraineesProvider>
-    <TraineesPage />
-  </TraineesProvider>
-}
-
+  return (
+    <TraineesProvider>
+      <TraineesPage />
+    </TraineesProvider>
+  );
+};
 
 export default TraineesWrapper;

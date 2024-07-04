@@ -1,5 +1,10 @@
 import React, { createContext, useEffect, useState, useMemo } from "react";
-import { traineesList, addTrainee, changeTrainee } from "../API/api";
+import {
+  traineesList,
+  addTrainee,
+  changeTrainee,
+  removeTrainee,
+} from "../API/api";
 
 const TraineesContext = createContext();
 
@@ -48,6 +53,14 @@ const TraineesProvider = ({ children }) => {
     }
   };
 
+  const deleteTrainee = async (traineeId) => {
+    try {
+      await removeTrainee(traineeId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <TraineesContext.Provider
       value={{
@@ -58,6 +71,7 @@ const TraineesProvider = ({ children }) => {
         addNew,
         setAddNew,
         updateTrainee,
+        deleteTrainee,
       }}
     >
       {children}

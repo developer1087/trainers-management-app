@@ -16,10 +16,13 @@
   padding: 2rem 2.5rem;
   border: none;
   outline: none;
-  border-radius: 0.25rem;
+  border-radius: 1rem;
   color: black;
-  background: white;
-  border: 1px solid black;
+  background: #fcfcfc;
+}
+
+.wrapper * {
+  background: #fcfcfc;
 }
 
 .input-control {
@@ -40,8 +43,8 @@
   border: none;
   outline: none;
   border-radius: 2rem;
-  color: black;
-  background: #fcfcfc;
+  color: #fcfcfc;
+  background: #999;
   text-transform: unset;
   text-rendering: optimizeLegibility;
 }
@@ -57,16 +60,18 @@
   padding: 0.65rem 1.25rem;
   border: none;
   outline: none;
-  border-radius: 1rem;
-  color: #fcfcfc;
-  background: #333;
+  border-radius: 50px;
+  color: var(--primary-dark);
+  background: var(--primary-color);
   text-transform: capitalize;
   text-rendering: optimizeLegibility;
   margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .input-submit:hover {
   background: #444;
   text-decoration: none;
   color: #fcfcfc;
+  border: none;
 }

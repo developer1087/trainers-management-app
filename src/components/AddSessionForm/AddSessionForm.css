@@ -1,0 +1,21 @@
+.session-form * {
+  background: #fcfcfc;
+}
+
+.session-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.session-form form label {
+  font-size: small;
+  text-align: left;
+}
+
+.session-input {
+  background: var(--secondary-light);
+}
+
+.session-submit {
+  border: var(--primary-dark) 2px solid;
+}

@@ -1,1 +1,14 @@
- 
+.add-trainee-container form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background: #fcfcfc;
+}
+.add-trainee-container * {
+  margin: 0.3rem;
+}
+
+.add-trainee-input {
+  background: var(--secondary-light);
+  color: #fcfcfc;
+}

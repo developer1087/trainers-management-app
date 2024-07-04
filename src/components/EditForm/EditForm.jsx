@@ -23,6 +23,7 @@ const EditForm = ({ updateTrainee, setIsEdit, fname, lname, id }) => {
           name="fname"
           value={fName}
           onChange={(e) => setFname(e.target.value)}
+          className="input-field"
         />
         <label htmlFor="">Edit Last Name</label>
         <input
@@ -30,8 +31,11 @@ const EditForm = ({ updateTrainee, setIsEdit, fname, lname, id }) => {
           name="lname"
           value={lName}
           onChange={(e) => setLname(e.target.value)}
+          className="input-field"
         />
-        <button type="submit">Save Changes</button>
+        <button type="submit" className="input-submit">
+          Save Changes
+        </button>
       </form>
     </div>
   );

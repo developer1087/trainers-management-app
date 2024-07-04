@@ -1,14 +1,70 @@
 .welcome-container {
-  width: 350px;
+  background: #fcfcfc;
+}
+
+.img-container {
+  height: 60vh;
+  width: 100%;
+  background: url("../../assets/images/boxed-water-is-better-zQNDCje06VM-unsplash.jpg");
+  object-position: 80% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 200%;
+  object-fit: contain;
+}
+
+.content-container {
+  background: #fcfcfc;
+  width: 100%;
   margin: auto;
   text-align: center;
-  height: 80vh;
+  height: 40vh;
   align-content: center;
   justify-content: space-around;
-  border: 1px black solid;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
-  border-radius: 15px;
+  padding: 2rem;
+}
+
+.gradient-container {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(transparent, transparent, white);
+  z-index: 10;
+  position: absolute;
+  top: 30vh;
+}
+
+.content-container * {
+  margin: 0.1rem;
+  background: #fcfcfc;
+}
+
+.welcome-container h1 {
+  font-size: 1.3rem;
+}
+
+.welcome-container p {
+  font-size: 0.8rem;
+}
+
+.welcome-container label {
+  font-size: 1rem;
+}
+
+.btn {
+  padding: 0.5rem;
+  border: none;
+  background: var(--primary-dark);
+  color: #fcfcfc;
+  border-radius: 50px;
+  font-weight: 600;
+  width: 80vw;
+}
+
+.btn:hover {
+  background: var(--primary-color);
+  color: var(--primary-dark);
 }

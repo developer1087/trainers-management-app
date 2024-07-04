@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TraineesContext } from "../../context/TraineesContext";
 
+import "./AddTrainee.css";
+
 const AddTrainee = ({ addNewTrainee }) => {
   const { addNew, setAddNew } = useContext(TraineesContext);
   const [fname, setFname] = useState("");
@@ -25,21 +27,26 @@ const AddTrainee = ({ addNewTrainee }) => {
   return (
     <div className="add-trainee-container">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="">First Name</label>
         <input
           type="text"
           name="fname"
           value={fname}
           onChange={(e) => setFname(e.target.value)}
+          className="input-field add-trainee-input"
+          placeholder="First Name"
         />
-        <label htmlFor="">Last Name</label>
+
         <input
           type="text"
           name="lname"
           value={lname}
           onChange={(e) => setLname(e.target.value)}
+          className="input-field add-trainee-input"
+          placeholder="Last Name"
         />
-        <button type="submit">Add Trainee</button>
+        <button type="submit" className="input-submit add-trainee-submit">
+          Add Trainee
+        </button>
       </form>
     </div>
   );

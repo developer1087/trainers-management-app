@@ -6,6 +6,7 @@ import AuthPage from "./pages/AuthPage/AuthPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import TraineesPage from "./pages/TraineesPage/TraineesPage";
 import SingleTraineePage from "./pages/SingleTraineePage/SingleTraineePage";
+import SessionsPage from "./pages/SessionsPage/SessionsPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "singleTraineePage",
     element: <SingleTraineePage />,
+  },
+  {
+    path: "sessionsPage",
+    element: <SessionsPage />,
   },
 ]);
 

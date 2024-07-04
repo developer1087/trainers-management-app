@@ -1,0 +1,12 @@
+.single-session-container {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  background: var(--primary-color);
+  border-radius: 1rem;
+}
+
+.single-session-container p {
+  background: var(--primary-color);
+  color: var(--primary-dark);
+  font-weight: 600;
+}

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import "./SingleTraineePage.css";
-import { useLocation } from "react-router-dom";
+import { useNavigate, redirect, useLocation } from "react-router-dom";
 import EditForm from "../../components/EditForm/EditForm";
 import {
   TraineesContext,
@@ -10,14 +10,14 @@ import {
 
 const SingleTraineePage = () => {
   const location = useLocation();
-  console.log(location);
   const [isEdit, setIsEdit] = useState(false);
+  const [trainee, setTrainee] = useState(location.state);
+  // const { state } = location;
+  const { updateTrainee, deleteTrainee } = useContext(TraineesContext);
+  const navigate = useNavigate();
+  const { fname, lname, id } = trainee;
 
-  const { state } = location;
-  useEffect(() => {}, [state]);
-  const { updateTrainee, traineesData } = useContext(TraineesContext);
-
-  if (!state) {
+  if (!trainee) {
     return (
       <div className="main-container">
         <h1>Manage Trainee</h1>
@@ -26,29 +26,45 @@ const SingleTraineePage = () => {
     );
   }
 
-  const { fname, lname, id } = state;
-
+  const handleUpdateTrainee = async (updatedTrainee) => {
+    await updateTrainee(updatedTrainee, id);
+    setTrainee((prev) => ({ ...prev, ...updatedTrainee }));
+    setIsEdit(false);
+  };
   const handleEdit = () => {
     setIsEdit(true);
   };
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    deleteTrainee(id);
+    alert("Trainee Removed.");
+    navigate("/traineesPage");
+  };
   return (
     <div className="main-container">
       <h1>Manage Trainee</h1>
-      <p>
-        {fname} {lname}
-      </p>
-      <button onClick={handleEdit}>Edit</button>
-      <button onClick={handleDelete}>Delete</button>
-      {isEdit && (
-        <EditForm
-          setIsEdit={setIsEdit}
-          updateTrainee={updateTrainee}
-          fname={fname}
-          lname={lname}
-          id={id}
-        />
-      )}
+      <div className="trainee-details">
+        <h3>Trainee's info</h3>
+        <p>
+          {fname} {lname}
+        </p>
+      </div>
+      <div className="trainee-actions">
+        <button onClick={handleEdit} className="btn trainee-action-btn">
+          Edit
+        </button>
+        {isEdit && (
+          <EditForm
+            setIsEdit={setIsEdit}
+            updateTrainee={handleUpdateTrainee}
+            fname={fname}
+            lname={lname}
+            id={id}
+          />
+        )}
+        <button onClick={handleDelete} className="btn trainee-action-btn">
+          Delete
+        </button>
+      </div>
     </div>
   );
 };
