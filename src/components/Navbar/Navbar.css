@@ -1,0 +1,23 @@
+.nav-container ul {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  margin: 0.3rem;
+  background: var(--primary-dark);
+  border-radius: 2rem;
+}
+.nav-container ul li {
+  list-style: none;
+}
+
+.nav-container ul li a {
+  text-decoration: none;
+  background: var(--primary-dark);
+  color: #fcfcfc;
+}
+
+.nav-container ul li a:hover {
+  background: var(--primary-color);
+  color: var(--primary-dark);
+  padding: 1rem;
+}
