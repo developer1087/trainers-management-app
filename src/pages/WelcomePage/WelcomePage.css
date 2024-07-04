@@ -34,7 +34,7 @@
   background: linear-gradient(transparent, transparent, white);
   z-index: 10;
   position: absolute;
-  top: 30vh;
+  top: 40vh;
 }
 
 .content-container * {
