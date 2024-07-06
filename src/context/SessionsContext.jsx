@@ -2,8 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 import {
   sessionsList,
   addSession,
-  // changeSession,
-  // removeSession,
+  changeSession,
+  removeSession,
 } from "../API/api";
 
 const SessionsContext = createContext();

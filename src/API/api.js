@@ -22,9 +22,9 @@ export const traineesList = async () => {
     }));
 
     // Optional: Log the trainees
-    trainees.forEach((trainee) => {
-      console.log(`${trainee.id} => `, trainee);
-    });
+    // trainees.forEach((trainee) => {
+    //   console.log(`${trainee.id} => `, trainee);
+    // });
 
     return trainees;
   } else {
@@ -89,9 +89,9 @@ export const sessionsList = async () => {
       ...doc.data(),
     }));
     // Optional: Log the sessions
-    sessions.forEach((session) => {
-      console.log(`${session.id} => `, session);
-    });
+    // sessions.forEach((session) => {
+    //   console.log(`${session.id} => `, session);
+    // });
 
     return sessions;
   } else {
@@ -116,5 +116,28 @@ export const addSession = async (sessionData) => {
     }
   } else {
     throw new Error("User not authenticated");
+  }
+};
+
+export const changeSession = async (updatedSession, sessionId) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  try {
+    const sessionRef = doc(db, `users/${user.uid}/sessions`, sessionId); // Create a document reference
+    await setDoc(sessionRef, updatedSession); // Set the document with the updated data
+    console.log("Session updated successfully");
+  } catch (error) {
+    console.error("Error updating session:", error);
+  }
+};
+
+export const removeSession = async (sessionId) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  try {
+    const sessionRef = doc(db, `users/${user.uid}/sessions`, sessionId); // Create a document reference
+    await deleteDoc(sessionRef);
+  } catch (error) {
+    console.log(error);
   }
 };

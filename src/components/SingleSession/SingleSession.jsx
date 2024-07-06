@@ -1,6 +1,7 @@
 import React from "react";
 
 import "./SingleSession.css";
+import { Link } from "react-router-dom";
 
 const SingleSession = ({ session, traineesData }) => {
   const trainee = traineesData.find((trainee) => {
@@ -8,14 +9,16 @@ const SingleSession = ({ session, traineesData }) => {
   });
   console.log(trainee);
   return (
-    <div className="single-session-container">
-      <p>Date: {session.date}</p>
-      <p>Time: {session.time}</p>
-      <p>Session: {session.name}</p>
-      {/* <p>
-        Trainee: {trainee.fname} {trainee.lname}
-      </p> */}
-    </div>
+    <Link to="/singleSessionPage" state={session}>
+      <div className="single-session-container">
+        <p>Date: {session.date}</p>
+        <p>Time: {session.time}</p>
+        <p>Session: {session.name}</p>
+        {/* <p>
+          Trainee: {trainee.fname} {trainee.lname}
+        </p> */}
+      </div>
+    </Link>
   );
 };
 

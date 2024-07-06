@@ -8,6 +8,7 @@ import TraineesPage from "./pages/TraineesPage/TraineesPage";
 import SingleTraineePage from "./pages/SingleTraineePage/SingleTraineePage";
 import SessionsPage from "./pages/SessionsPage/SessionsPage";
 import Navbar from "./components/Navbar/Navbar";
+import SingleSessionPage from "./pages/SingleSessionPage/SingleSessionPage";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "sessionsPage",
         element: <SessionsPage />,
+      },
+      {
+        path: "singleSessionPage",
+        element: <SingleSessionPage />,
       },
     ],
   },

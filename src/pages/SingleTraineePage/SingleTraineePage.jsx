@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import "./SingleTraineePage.css";
-import { useNavigate, redirect, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import EditForm from "../../components/EditForm/EditForm";
+import {
+  SessionsContext,
+  SessionsProvider,
+} from "../../context/SessionsContext";
 import {
   TraineesContext,
   TraineesProvider,
@@ -16,6 +20,7 @@ const SingleTraineePage = () => {
   const { updateTrainee, deleteTrainee } = useContext(TraineesContext);
   const navigate = useNavigate();
   const { fname, lname, id } = trainee;
+  const { sessionsData } = useContext(SessionsContext);
 
   if (!trainee) {
     return (
@@ -25,6 +30,21 @@ const SingleTraineePage = () => {
       </div>
     );
   }
+
+  const getTraineesSessions = () => {
+    if (!sessionsData || sessionsData.length === 0) {
+      return "Loading sessions...";
+    }
+    const traineesSessionsArr = [];
+    for (const session of sessionsData) {
+      if (session.traineeId === trainee.id) {
+        traineesSessionsArr.push(session);
+      }
+    }
+    return traineesSessionsArr;
+  };
+
+  const traineesSessions = getTraineesSessions();
 
   const handleUpdateTrainee = async (updatedTrainee) => {
     await updateTrainee(updatedTrainee, id);
@@ -47,6 +67,20 @@ const SingleTraineePage = () => {
         <p>
           {fname} {lname}
         </p>
+        <h3>Trainee's Sessions</h3>
+        {Array.isArray(traineesSessions) && traineesSessions.length > 0 ? (
+          <ul>
+            {traineesSessions.map((session) => (
+              <li key={session.id}>
+                <p>Date: {session.date}</p>
+                <p>Time: {session.time}</p>
+                <p>Session: {session.name}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>{traineesSessions}</p>
+        )}
       </div>
       <div className="trainee-actions">
         <button onClick={handleEdit} className="btn trainee-action-btn">
@@ -71,9 +105,11 @@ const SingleTraineePage = () => {
 
 const SingleTraineeWrapper = () => {
   return (
-    <TraineesProvider>
-      <SingleTraineePage />
-    </TraineesProvider>
+    <SessionsProvider>
+      <TraineesProvider>
+        <SingleTraineePage />
+      </TraineesProvider>
+    </SessionsProvider>
   );
 };
 
