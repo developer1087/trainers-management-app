@@ -19,7 +19,7 @@ const SingleTraineePage = () => {
   // const { state } = location;
   const { updateTrainee, deleteTrainee } = useContext(TraineesContext);
   const navigate = useNavigate();
-  const { fname, lname, id } = trainee;
+  const { fname, lname, id, phone, email } = trainee;
   const { sessionsData } = useContext(SessionsContext);
 
   if (!trainee) {
@@ -67,6 +67,10 @@ const SingleTraineePage = () => {
         <p>
           {fname} {lname}
         </p>
+        <p>{phone}</p>
+        <p>{email}</p>
+      </div>
+      <div className="trainee-sessions">
         <h3>Trainee's Sessions</h3>
         {Array.isArray(traineesSessions) && traineesSessions.length > 0 ? (
           <ul>
@@ -82,6 +86,7 @@ const SingleTraineePage = () => {
           <p>{traineesSessions}</p>
         )}
       </div>
+
       <div className="trainee-actions">
         <button onClick={handleEdit} className="btn trainee-action-btn">
           Edit

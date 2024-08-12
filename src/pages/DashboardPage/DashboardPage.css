@@ -63,3 +63,20 @@
 .sessions-container img {
   width: 100%;
 }
+
+@media (min-width: 757px) {
+  .main-dash-container {
+    display: grid;
+    grid-template-columns: 20% 40% 40%;
+  }
+
+  .trainees-container button,
+  .sessions-container button {
+    width: 100%;
+  }
+
+  .trainees-container img,
+  .sessions-container img {
+    width: 300px;
+  }
+}

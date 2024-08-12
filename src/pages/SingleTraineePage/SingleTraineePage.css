@@ -13,14 +13,16 @@
   text-align: center;
 }
 
-.trainee-details {
+.trainee-details,
+.trainee-sessions {
   width: 100%;
   background: #fcfcfc;
   border-radius: 1rem;
   padding: 1rem;
 }
 
-.trainee-details * {
+.trainee-details *,
+.trainee-sessions * {
   background: #fcfcfc;
   border-radius: 1rem;
 }

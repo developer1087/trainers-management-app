@@ -54,6 +54,7 @@ const SingleSessionPage = () => {
         <p>Date: {session.date}</p>
         <p>Time: {session.time}</p>
         <p>Session: {session.name}</p>
+        <p>Description: {session.description}</p>
         <p>{getTraineeName()}</p>
       </div>
       <div className="session-actions">
