@@ -12,9 +12,10 @@
 }
 .nav-container ul li {
   list-style: none;
+  background: #333;
 }
 
-.nav-container ul li a {
+.nav-container ul a {
   text-decoration: none;
   background: var(--primary-dark);
   color: #fcfcfc;
@@ -29,10 +30,17 @@
 .logo-container {
   width: 10%;
   height: 1.5rem;
+  background: #333;
 }
 
 .logo-container img {
-  width: 100%;
+  width: 30px;
   height: 100%;
   background: var(--primary-dark);
+}
+
+@media screen and (min-width: 757px) {
+  .nav-container ul {
+    border-radius: 0;
+  }
 }

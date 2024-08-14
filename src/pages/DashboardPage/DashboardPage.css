@@ -65,9 +65,21 @@
 }
 
 @media (min-width: 757px) {
+  .top-container {
+    grid-area: welcomeArea;
+  }
+  .trainees-container {
+    grid-area: traineesArea;
+  }
+  .sessions-container {
+    grid-area: sessionsArea;
+  }
   .main-dash-container {
     display: grid;
-    grid-template-columns: 20% 40% 40%;
+    grid-template-areas:
+      "welcomeArea welcomeArea"
+      "traineesArea sessionsArea"
+      "traineesArea sessionsArea";
   }
 
   .trainees-container button,

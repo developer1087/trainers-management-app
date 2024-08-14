@@ -24,6 +24,8 @@ const DashboardPage = () => {
     useContext(TraineesContext);
   const { openSessionForm, setOpenSessionForm } = useContext(SessionsContext);
 
+  console.log(user);
+
   const handleAddTrainee = () => {
     addNewTrainee;
     setAddNew(true);
