@@ -52,8 +52,7 @@ const AuthPage = () => {
             if (user) {
               setUser(user);
             } else {
-              // User is signed out
-              // ...
+              console.log("User is logged out.");
             }
           });
           navigate("/dashboardPage");

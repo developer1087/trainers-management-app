@@ -44,13 +44,13 @@ const DashboardPage = () => {
       <div className="trainees-container">
         <h2>Trainees</h2>
         <img src={traineesSectionImg} alt="" />
-        <div className="add-trainee">
-          <button onClick={handleAddTrainee} className="secondary-btn">
+        
+        <button onClick={handleAddTrainee} className="secondary-btn">
             Add A New Trainee
-          </button>
-        </div>
+        </button>
+        
         {addNew && <AddTrainee addNewTrainee={addNewTrainee} />}
-        <Link to="/traineesPage">
+        <Link to="/traineesPage" className="full-width no-margin">
           <button className="secondary-btn">Manage Trainees</button>
         </Link>
       </div>
@@ -67,7 +67,7 @@ const DashboardPage = () => {
             setOpenSessionForm={setOpenSessionForm}
           />
         )}
-        <Link to="/sessionsPage">
+        <Link to="/sessionsPage"  className="full-width no-margin">
           <button className="secondary-btn">See All Sessions</button>
         </Link>
       </div>

@@ -22,9 +22,13 @@
   background: #fcfcfc;
 }
 .trainees-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: #fcfcfc;
   border-radius: 1rem;
   padding: 1rem;
+  justify-content: center;
 }
 
 .trainees-container h2,
@@ -33,9 +37,13 @@
   background: #fcfcfc;
 }
 .sessions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: #fcfcfc;
   border-radius: 1rem;
   padding: 1rem;
+  justify-content: center;
 }
 
 .sessions-container h2,
@@ -51,7 +59,19 @@
   color: var(--primary-dark);
   border-radius: 50px;
   font-weight: 600;
-  width: 80vw;
+  width: 100%;
+  margin: 0.25rem 0;
+
+}
+
+
+.full-width {
+  width: 100%;
+}
+
+.no-margin {
+  margin: 0;
+  padding: 0;
 }
 
 .secondary-btn:hover {
