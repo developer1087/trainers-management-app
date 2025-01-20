@@ -21,6 +21,32 @@
 .top-container * {
   background: #fcfcfc;
 }
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  grid-template-rows: repeat(2, 1fr);
+  align-items: center;
+  background: #fcfcfc;
+  border-radius: 1rem;
+  justify-content: center;
+  margin: 0;
+}
+
+.single-stat {
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+  background: #fdf7bd;
+  border-radius: 1rem;
+  padding: 1rem;
+  justify-content: center;
+}
+
+.single-stat h3, .single-stat p {
+  background: #fdf7bd;
+}
+
 .trainees-container {
   display: flex;
   flex-direction: column;

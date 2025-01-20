@@ -22,7 +22,7 @@ const DashboardPage = () => {
   const { user } = useContext(AuthContext);
   const { traineesData, addNewTrainee, addNew, setAddNew } =
     useContext(TraineesContext);
-  const { openSessionForm, setOpenSessionForm } = useContext(SessionsContext);
+  const { openSessionForm, setOpenSessionForm, sessionsData } = useContext(SessionsContext);
 
   console.log(user);
 
@@ -40,6 +40,24 @@ const DashboardPage = () => {
       <div className="top-container">
         <h1>Welcome</h1>
         <p>Let's get things done!</p>
+        <div className="stats-container">
+        <div className="single-stat">
+            <h3>Tasks</h3>
+            <p>{traineesData.length}</p>
+          </div>
+          <div className="single-stat">
+            <h3>Sessions</h3>
+            <p>{sessionsData.length}</p>
+          </div>
+          <div className="single-stat">
+            <h3>Trainees</h3>
+            <p>{traineesData.length}</p>
+          </div>
+          <div className="single-stat">
+            <h3>Balance</h3>
+            <p>{sessionsData.length}</p>
+          </div>
+        </div>
       </div>
       <div className="trainees-container">
         <h2>Trainees</h2>
@@ -74,6 +92,7 @@ const DashboardPage = () => {
     </div>
   );
 };
+
 const DashboardWrapper = () => {
   return (
     <TraineesProvider>
