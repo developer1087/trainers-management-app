@@ -13,9 +13,13 @@
 }
 
 .top-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: #fcfcfc;
   border-radius: 1rem;
   padding: 1rem;
+  height: 80vh;
 }
 
 .top-container * {
@@ -30,7 +34,10 @@
   background: #fcfcfc;
   border-radius: 1rem;
   justify-content: center;
-  margin: 0;
+  margin: 0.5rem;
+  gap: 0.5rem; /* Added gap to prevent overlap */
+  width: 100%;
+  height: 80vh;
 }
 
 .single-stat {
@@ -41,11 +48,26 @@
   border-radius: 1rem;
   padding: 1rem;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.single-stat h3 {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.single-stat p {
+  margin-top: 2rem; /* Adjust this value as needed to vertically center the content */
 }
 
 .single-stat h3, .single-stat p {
   background: #fdf7bd;
 }
+
+
 
 .trainees-container {
   display: flex;

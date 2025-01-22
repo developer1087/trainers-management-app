@@ -17,6 +17,7 @@ import {
 import { addSession } from "../../API/api";
 import traineesSectionImg from "../../assets/images/bruce-mars-WGN6ZEFEZbs-unsplash.jpg";
 import sessionSectionImg from "../../assets/images/victor-freitas-vqDAUejnwKw-unsplash.jpg";
+import Tasks from "../../components/Tasks/Tasks";
 
 const DashboardPage = () => {
   const { user } = useContext(AuthContext);
@@ -41,9 +42,8 @@ const DashboardPage = () => {
         <h1>Welcome</h1>
         <p>Let's get things done!</p>
         <div className="stats-container">
-        <div className="single-stat">
-            <h3>Tasks</h3>
-            <p>{traineesData.length}</p>
+          <div className="single-stat">
+            <Tasks/>
           </div>
           <div className="single-stat">
             <h3>Sessions</h3>
