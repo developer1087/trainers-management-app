@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-
 import "./SingleSessionPage.css";
 import { useLocation, useNavigate } from "react-router";
 import {
@@ -54,6 +53,7 @@ const SingleSessionPage = () => {
         <p>Date: {session.date}</p>
         <p>Time: {session.time}</p>
         <p>Session: {session.name}</p>
+        <p>Price: {session.price}</p>
         <p>Description: {session.description}</p>
         <p>{getTraineeName()}</p>
       </div>
@@ -69,6 +69,9 @@ const SingleSessionPage = () => {
             time={session.time}
             id={session.id}
             name={session.name}
+            price={session.price}
+            description={session.description}
+            traineeId={session.traineeId}
           />
         )}
         <button className="btn" onClick={handleDeleteSession}>

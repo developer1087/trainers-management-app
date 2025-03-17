@@ -9,11 +9,14 @@ const EditSessionForm = ({
   time,
   id,
   name,
+  price,
+  description,
 }) => {
   const [sessionDate, setSessionDate] = useState(date);
   const [sessionTime, setSessionTime] = useState(time);
   const [sessionName, setSessionName] = useState(name);
-  const [sessionDescription, setSessionDescription] = useState("");
+  const [sessionPrice, setSessionPrice] = useState(price);
+  const [sessionDescription, setSessionDescription] = useState(description);
 
   const handleEditSessionSubmit = (e) => {
     e.preventDefault();
@@ -56,6 +59,15 @@ const EditSessionForm = ({
           name="name"
           value={sessionName}
           onChange={(e) => setSessionName(e.target.value)}
+          className="input-field"
+        />
+        <label htmlFor="">Edit Session Price</label>
+        <input
+          type="number"
+          placeholder={price}
+          name="price"
+          value={sessionPrice}
+          onChange={(e) => setSessionPrice(e.target.value)}
           className="input-field"
         />
         <label htmlFor="">Edit Session Description</label>

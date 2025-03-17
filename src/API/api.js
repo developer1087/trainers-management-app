@@ -10,6 +10,23 @@ import {
 import { db } from "../config/config";
 import { getAuth } from "firebase/auth";
 
+export const fetchTrainerData = async (userId) => {
+  const userRef = doc(db, `users/${userId}`);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    return userSnap.data();
+  } else {
+    console.error("User not found");
+    return null;
+  }
+};
+
+export const updateTrainerData = async (userId, updatedData) => {
+  const userRef = doc(db, `users/${userId}`);
+  await updateDoc(userRef, updatedData);
+};
+
+
 export const traineesList = async () => {
   const auth = getAuth();
   const user = auth.currentUser;

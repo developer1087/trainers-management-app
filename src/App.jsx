@@ -4,6 +4,7 @@ import "./CSS/reset.css";
 import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
+import EditTrainerProfile from "./components/EditTrainerProfile/EditTrainerProfile";
 import TraineesPage from "./pages/TraineesPage/TraineesPage";
 import SingleTraineePage from "./pages/SingleTraineePage/SingleTraineePage";
 import SessionsPage from "./pages/SessionsPage/SessionsPage";
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "dashboardPage",
         element: <DashboardPage />,
+      },
+      {
+        path: "edit-profile",
+        element: <EditTrainerProfile/>,
       },
       {
         path: "traineesPage",

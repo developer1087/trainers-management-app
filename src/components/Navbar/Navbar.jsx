@@ -38,6 +38,9 @@ const Navbar = () => {
             Log Out
           </button>
         </li>
+        <li>
+          <NavLink to="/edit-profile">Edit Profile</NavLink>
+        </li>
       </ul>
     </div>
   );
