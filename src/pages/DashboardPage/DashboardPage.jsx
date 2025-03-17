@@ -62,18 +62,18 @@ const DashboardPage = () => {
       <h1>Welcome {userData?.name || "Trainer"}</h1>
       <p>Let's get things done!</p>
         <div className="stats-container">
-          <div className="single-stat">
+          <div className="single-stat" id="tasks-stat">
             <Tasks/>
           </div>
-          <div className="single-stat">
+          <div className="single-stat"  id="sessions-stat">
             <h3>Sessions</h3>
             <p>{sessionsData.length}</p>
           </div>
-          <div className="single-stat">
+          <div className="single-stat" id="trainees-stat">
             <h3>Trainees</h3>
             <p>{traineesData.length}</p>
           </div>
-          <div className="single-stat">
+          <div className="single-stat" id="balance-stat">
             <h3>Balance</h3>
             <p>{sessionsData.length}</p>
           </div>
