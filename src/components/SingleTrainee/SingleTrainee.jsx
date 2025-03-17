@@ -10,7 +10,7 @@ const SingleTrainee = ({ trainee }) => {
       className="single-trainee-link"
     >
       <div className="single-trainee-container">
-        <p>
+        <p style={{ fontSize: "1.5rem" }}>
           {trainee.fname} {trainee.lname}
         </p>
       </div>

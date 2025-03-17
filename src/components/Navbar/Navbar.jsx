@@ -33,7 +33,7 @@ const Navbar = () => {
           <NavLink to="/sessionsPage">Sessions</NavLink>
         </li>
         <li className="logout-btn">
-        <NavLink to="/edit-profile"><FontAwesomeIcon icon={faUser} id="user-icon" /></NavLink>
+          <NavLink to="/edit-profile" className="no-hover"><FontAwesomeIcon icon={faUser} id="user-icon" /></NavLink>
           <button
             onClick={handleLogoutBtn}
             style={{background: "none", border: "none"}}

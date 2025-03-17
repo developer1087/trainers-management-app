@@ -15,11 +15,9 @@
 }
 
 #user-icon:hover {
-  background: #fcfcfc;
   color: var(--primary-color);
   transform: rotate(15deg);
 }
-
 
 .logout-btn button {
   background: none;
@@ -63,7 +61,7 @@
   border-radius: 1rem;
 }
 
-.nav-container ul li a:hover {
+.nav-container ul li a:not(.no-hover):hover {
   background: var(--primary-color);
   color: var(--primary-dark);
 }

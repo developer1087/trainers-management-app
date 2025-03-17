@@ -20,7 +20,7 @@ const TraineesPage = () => {
   };
   return (
     <div className="main-trainees-container">
-      <h2>All trainees:</h2>
+      <h2>All trainees</h2>
       <div className="trainees-list">
         {traineesData.map((trainee) => {
           return <SingleTrainee key={trainee.id} trainee={trainee} />;
@@ -29,7 +29,7 @@ const TraineesPage = () => {
       <div className="add-trainee-container">
         {!addNew && (
           <button onClick={handleAddTrainee} className="btn">
-            Add A New Trainee:
+            Add A New Trainee
           </button>
         )}
 
