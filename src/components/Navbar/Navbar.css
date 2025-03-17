@@ -3,6 +3,28 @@
 
 }
 
+#user-icon {
+  width: 30px;
+  height: 30px;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: #fcfcfc;
+  margin-right: 1rem;
+}
+
+#logout-btn {
+  background: var(--primary-color) !important;
+}
+
+#logout-icon {
+  width: 30px;
+  height: 30px;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: var(--primary-color);
+}
+
 .nav-container ul {
   display: flex;
   justify-content: space-around;
@@ -31,12 +53,12 @@
 
 .logo-container {
   width: 10%;
-  height: 1.5rem;
+  height: 2rem;
   background: var(--primary-dark);
 }
 
 .logo-container img {
-  width: 30px;
+  width:40px;
   height: 100%;
   background: var(--primary-dark);
 }

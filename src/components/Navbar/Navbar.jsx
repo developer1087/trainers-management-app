@@ -1,5 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/aiflogo4@600x.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 import { getAuth, signOut } from "firebase/auth";
 
@@ -31,15 +33,13 @@ const Navbar = () => {
           <NavLink to="/sessionsPage">Sessions</NavLink>
         </li>
         <li className="logout-btn">
+        <NavLink to="/edit-profile"><FontAwesomeIcon icon={faUser} id="user-icon" /></NavLink>
           <button
             onClick={handleLogoutBtn}
-            className="secondary-btn logout-btn"
+            style={{background: "none", border: "none"}}
           >
-            Log Out
+           <FontAwesomeIcon icon={faRightFromBracket} id="user-icon"/>
           </button>
-        </li>
-        <li>
-          <NavLink to="/edit-profile">Edit Profile</NavLink>
         </li>
       </ul>
     </div>
