@@ -4,8 +4,8 @@
 }
 
 #user-icon {
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   padding: 0.5rem;
   border-radius: 50%;
   background: var(--primary-color);
@@ -18,8 +18,8 @@
 }
 
 #logout-icon {
-  width: 30px;
-  height: 30px;
+  width: 3rem;
+  height: 3rem;
   padding: 0.5rem;
   border-radius: 50%;
   background: var(--primary-color);
@@ -27,9 +27,8 @@
 
 .nav-container ul {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 1rem;
-  /* margin: 0.3rem; */
   background: var(--primary-dark);
   border-radius: 2rem;
   align-items: center;
