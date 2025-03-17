@@ -1,11 +1,13 @@
 .nav-container {
   position: sticky;
-
+  top: 0;
+  z-index: 100;
+  padding: 0.5rem;
 }
 
 #user-icon {
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   padding: 0.5rem;
   border-radius: 50%;
   background: var(--primary-color);
