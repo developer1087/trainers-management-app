@@ -63,7 +63,7 @@ const SingleTraineePage = () => {
     <div className="main-container">
       <h1>Manage Trainee</h1>
       <div className="trainee-details">
-        <h3>Trainee's info</h3>
+        <h3>Info</h3>
         <p>
           {fname} {lname}
         </p>
@@ -71,7 +71,7 @@ const SingleTraineePage = () => {
         <p>{email}</p>
       </div>
       <div className="trainee-sessions">
-        <h3>Trainee's Sessions</h3>
+        <h3>Sessions</h3>
         {Array.isArray(traineesSessions) && traineesSessions.length > 0 ? (
           <ul>
             {traineesSessions.map((session) => (

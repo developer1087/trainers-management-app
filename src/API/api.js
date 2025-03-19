@@ -12,7 +12,7 @@ import { getAuth } from "firebase/auth";
 
 export const fetchTrainerData = async (userId) => {
   const userRef = doc(db, `users/${userId}`);
-  const userSnap = await getDoc(userRef);
+  const userSnap = await getDocs(userRef);
   if (userSnap.exists()) {
     return userSnap.data();
   } else {
@@ -156,5 +156,25 @@ export const removeSession = async (sessionId) => {
     await deleteDoc(sessionRef);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const addPayment = async (userId, traineeId, sessionId, amount) => {
+  try {
+    const paymentsRef = collection(db, `users/${userId}/payments`);
+    
+    const newPayment = {
+      traineeId,
+      sessionId: sessionId || null,
+      amount,
+      timestamp: serverTimestamp(),
+    };
+
+    const docRef = await addDoc(paymentsRef, newPayment);
+    console.log("Payment added with ID:", docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error adding payment:", error);
+    throw error;
   }
 };
