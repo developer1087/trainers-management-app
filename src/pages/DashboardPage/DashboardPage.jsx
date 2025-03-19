@@ -21,6 +21,7 @@ import traineesSectionImg from "../../assets/images/bruce-mars-WGN6ZEFEZbs-unspl
 import sessionSectionImg from "../../assets/images/victor-freitas-vqDAUejnwKw-unsplash.jpg";
 import Tasks from "../../components/Tasks/Tasks";
 import { fetchTrainerData } from "../../API/api";
+import { PaymentsProvider } from "../../context/PaymentsContext";
 
 const DashboardPage = () => {
   const { traineesData, addNewTrainee, addNew, setAddNew } =
@@ -117,7 +118,9 @@ const DashboardWrapper = () => {
   return (
     <TraineesProvider>
       <SessionsProvider>
-        <DashboardPage />
+        <PaymentsProvider>
+         <DashboardPage />
+        </PaymentsProvider>
       </SessionsProvider>
     </TraineesProvider>
   );

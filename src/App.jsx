@@ -10,6 +10,7 @@ import SingleTraineePage from "./pages/SingleTraineePage/SingleTraineePage";
 import SessionsPage from "./pages/SessionsPage/SessionsPage";
 import Navbar from "./components/Navbar/Navbar";
 import SingleSessionPage from "./pages/SingleSessionPage/SingleSessionPage";
+import  PaymentPage  from "./pages/PaymentPage/PaymentPage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
         path: "singleSessionPage",
         element: <SingleSessionPage />,
       },
+      {
+        path: "paymentsPage",
+        element: <PaymentPage />,
+      }
     ],
   },
 ]);

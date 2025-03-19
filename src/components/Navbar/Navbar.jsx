@@ -32,6 +32,9 @@ const Navbar = () => {
         <li>
           <NavLink to="/sessionsPage">Sessions</NavLink>
         </li>
+        <li>
+          <NavLink to="/paymentsPage">Payments</NavLink>
+        </li>
         <li className="logout-btn">
           <NavLink to="/edit-profile" className="no-hover"><FontAwesomeIcon icon={faUser} id="user-icon" /></NavLink>
           <button
