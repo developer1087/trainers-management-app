@@ -1,32 +1,36 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../config/config";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { AuthContext } from "./AuthContext";
 
 const PaymentsContext = createContext();
 
 export const PaymentsProvider = ({ children }) => {
   const [paymentsData, setPaymentsData] = useState([]);
-    const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true); // Add loading state
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     if (!user) return;
 
-    const paymentsRef = collection(db, "users", user.uid, "payments");
-    const q = query(paymentsRef, where("userId", "==", user.uid));
+    setLoading(true); // Set loading to true before fetching data
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const paymentsRef = collection(db, "users", user.uid, "payments");
+
+    const unsubscribe = onSnapshot(paymentsRef, (snapshot) => {
       const paymentsList = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setPaymentsData(paymentsList);
+      setLoading(false); // Set loading to false after data is fetched
     });
 
     return () => unsubscribe();
   }, [user]);
 
   return (
-    <PaymentsContext.Provider value={{ paymentsData, setPaymentsData }}>
+    <PaymentsContext.Provider value={{ paymentsData, setPaymentsData, loading }}>
       {children}
     </PaymentsContext.Provider>
   );

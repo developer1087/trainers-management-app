@@ -1,36 +1,38 @@
-import React, { useEffect } from "react";
-import { useContext } from "react";
-import { useState } from "react";
-import { SessionsContext } from "../../context/SessionsContext";
-
+import React, { useEffect, useState } from "react";
 import "./AddSessionForm.css";
+import { Select, SelectItem } from "../ui/Select";
 
 const AddSessionForm = ({ traineesData, addSession, setOpenSessionForm }) => {
+  console.log(traineesData);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [name, setName] = useState("");
   const [trainee, setTrainee] = useState("");
+  const [price, setPrice] = useState(""); // Add price state
 
   const [sessionData, setSessionData] = useState({
     date: "",
     time: "",
     name: "",
     traineeId: "",
+    price: "", // Add price to sessionData
   });
+
   useEffect(() => {
     setSessionData({
       date: date,
       time: time,
       name: name,
       traineeId: trainee,
+      price: price, // Update sessionData with price
     });
-  }, [date, time, name, trainee]);
+  }, [date, time, name, trainee, price]);
+
   const handleSessionSubmit = (e) => {
     e.preventDefault();
     addSession(sessionData);
     setOpenSessionForm(false);
   };
-  console.log(sessionData);
 
   return (
     <div className="session-form">
@@ -60,21 +62,27 @@ const AddSessionForm = ({ traineesData, addSession, setOpenSessionForm }) => {
           className="input-field session-input"
           placeholder="E.g 'Private session'"
         />
-        <label htmlFor="">Choose Trainee:</label>
-        <select
-          name="trainees"
-          id="trainees"
-          onChange={(e) => setTrainee(e.target.value)}
+        <label htmlFor="">Enter Session Price:</label> {/* Add price input */}
+        <input
+          type="number"
+          name="price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
           className="input-field session-input"
-        >
-          {traineesData.map((trainee) => {
-            return (
-              <option value={trainee.id} key={trainee.id}>
-                {trainee.fname} {trainee.lname}
-              </option>
-            );
-          })}
-        </select>
+          placeholder="Session Price"
+        />
+        <label htmlFor="">Choose Trainee:</label>
+        <Select
+                      onValueChange={(value) => setTrainee(value)} 
+                      value={trainee}
+                    >
+                      <SelectItem value="">בחר מתאמן</SelectItem>
+                      {traineesData.map((trainee) => (
+                        <SelectItem key={trainee.id} value={trainee.id}>
+                          {trainee.fname} {trainee.lname}
+                        </SelectItem>
+                      ))}
+                    </Select>
         <button type="submit" className="input-submit session-submit">
           Save Session
         </button>

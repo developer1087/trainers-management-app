@@ -65,6 +65,7 @@ const TraineesProvider = ({ children }) => {
     <TraineesContext.Provider
       value={{
         traineesData,
+        setTraineesData, // Add setTraineesData here
         loading,
         error,
         addNewTrainee,

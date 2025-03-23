@@ -5,7 +5,7 @@ import {
   setDoc,
   doc,
   updateDoc,
-  deleteDoc, serverTimestamp
+  deleteDoc, serverTimestamp, query, where
 } from "firebase/firestore";
 import { db } from "../config/config";
 import { getAuth } from "firebase/auth";
@@ -115,6 +115,7 @@ export const sessionsList = async () => {
     throw new Error("User not authenticated");
   }
 };
+
 export const addSession = async (sessionData) => {
   const auth = getAuth();
   const user = auth.currentUser;
@@ -156,6 +157,26 @@ export const removeSession = async (sessionId) => {
     await deleteDoc(sessionRef);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const fetchPayments = async (userId) => {
+  try {
+    const paymentsCollection = collection(db, `users/${userId}/payments`);
+    const querySnapshot = await getDocs(paymentsCollection);
+
+    const payments = [];
+    querySnapshot.forEach((doc) => {
+      payments.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    return payments;
+  } catch (error) {
+    console.error("Error fetching payments:", error);
+    throw error;
   }
 };
 

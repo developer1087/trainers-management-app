@@ -4,49 +4,55 @@ import {
   TraineesContext,
   TraineesProvider,
 } from "../../context/TraineesContext";
+import { PaymentsProvider, usePayments } from "../../context/PaymentsContext";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../config/config"
-
+import { db } from "../../config/config";
 import AddTrainee from "../../components/AddTrainee/AddTrainee";
 import AddSessionForm from "../../components/AddSessionForm/AddSessionForm";
 import { Link } from "react-router-dom";
-
 import "./DashboardPage.css";
 import {
   SessionsContext,
   SessionsProvider,
 } from "../../context/SessionsContext";
-import { addSession } from "../../API/api";
+import { addSession, addPayment, traineesList, fetchPayments, sessionsList } from "../../API/api";
 import traineesSectionImg from "../../assets/images/bruce-mars-WGN6ZEFEZbs-unsplash.jpg";
 import sessionSectionImg from "../../assets/images/victor-freitas-vqDAUejnwKw-unsplash.jpg";
 import Tasks from "../../components/Tasks/Tasks";
 import { fetchTrainerData } from "../../API/api";
-import { PaymentsProvider } from "../../context/PaymentsContext";
 
 const DashboardPage = () => {
-  const { traineesData, addNewTrainee, addNew, setAddNew } =
+  const { traineesData, setTraineesData, addNewTrainee, addNew, setAddNew } =
     useContext(TraineesContext);
-  const { openSessionForm, setOpenSessionForm, sessionsData } = useContext(SessionsContext);
+  const { openSessionForm, setOpenSessionForm, sessionsData, setSessionsData } =
+    useContext(SessionsContext);
   const [userData, setUserData] = useState(null);
-
+  const { paymentsData, setPaymentsData, loading: paymentsLoading} = usePayments();
   const { user } = useContext(AuthContext);
+
+  const totalRevenue = paymentsData.reduce((sum, p) => sum + (p.amount || 0), 0);
+
   useEffect(() => {
-    if (!user) return;
     const fetchData = async () => {
       try {
-        const userRef = doc(db, `users/${user.uid}`);
-        const userSnap = await getDoc(userRef);
-        if (userSnap.exists()) {
-          setUserData(userSnap.data());
-        } else {
-          console.error("User document does not exist.");
-        }
+        const [traineesListData, paymentsListData, sessionsListData] = await Promise.all([
+          traineesList(user.uid),
+          fetchPayments(user.uid),
+          sessionsList(user.uid),
+        ]);
+
+        setTraineesData(traineesListData); // Update Trainees Context
+        setPaymentsData(paymentsListData);
+        setSessionsData(sessionsListData); // Update Sessions Context
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("שגיאה בטעינת הנתונים:", error);
       }
     };
-    fetchData();
-  }, [user]);
+
+    if (user) {
+      fetchData();
+    }
+  }, [user, setPaymentsData, setTraineesData, setSessionsData]); 
 
   const handleAddTrainee = () => {
     addNewTrainee;
@@ -60,13 +66,13 @@ const DashboardPage = () => {
   return (
     <div className="main-dash-container">
       <div className="top-container">
-      <h1>Welcome {userData?.name || "Trainer"}</h1>
-      <p>Let's get things done!</p>
+        <h1>Welcome {userData?.name || "Trainer"}</h1>
+        <p>Let's get things done!</p>
         <div className="stats-container">
           <div className="single-stat" id="tasks-stat">
-            <Tasks/>
+            <Tasks />
           </div>
-          <div className="single-stat"  id="sessions-stat">
+          <div className="single-stat" id="sessions-stat">
             <h3>Sessions</h3>
             <p>{sessionsData.length}</p>
           </div>
@@ -75,19 +81,19 @@ const DashboardPage = () => {
             <p>{traineesData.length}</p>
           </div>
           <div className="single-stat" id="balance-stat">
-            <h3>Balance</h3>
-            <p>{sessionsData.length}</p>
+          <h3>Balance</h3>
+            {paymentsLoading ? <p>Loading...</p> : <p>{totalRevenue}</p>} {/* Display loading indicator */}
           </div>
         </div>
       </div>
       <div className="trainees-container">
         <h2>Trainees</h2>
         <img src={traineesSectionImg} alt="" />
-        
+
         <button onClick={handleAddTrainee} className="secondary-btn">
-            Add A New Trainee
+          Add A New Trainee
         </button>
-        
+
         {addNew && <AddTrainee addNewTrainee={addNewTrainee} />}
         <Link to="/traineesPage" className="full-width no-margin">
           <button className="secondary-btn">Manage Trainees</button>
@@ -99,14 +105,15 @@ const DashboardPage = () => {
         <button className="secondary-btn" onClick={handleAddSession}>
           Add a new Session
         </button>
-        {openSessionForm && (
+        {openSessionForm && traineesData && traineesData.length > 0 && ( // Added checks here
           <AddSessionForm
+            key="addSessionForm" 
             traineesData={traineesData}
             addSession={addSession}
             setOpenSessionForm={setOpenSessionForm}
           />
         )}
-        <Link to="/sessionsPage"  className="full-width no-margin">
+        <Link to="/sessionsPage" className="full-width no-margin">
           <button className="secondary-btn">See All Sessions</button>
         </Link>
       </div>
@@ -119,7 +126,7 @@ const DashboardWrapper = () => {
     <TraineesProvider>
       <SessionsProvider>
         <PaymentsProvider>
-         <DashboardPage />
+          <DashboardPage />
         </PaymentsProvider>
       </SessionsProvider>
     </TraineesProvider>

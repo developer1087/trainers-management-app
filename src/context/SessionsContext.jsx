@@ -65,6 +65,7 @@ const SessionsProvider = ({ children }) => {
     <SessionsContext.Provider
       value={{
         sessionsData,
+        setSessionsData,
         loading,
         error,
         addNewSession,
