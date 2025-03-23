@@ -2,7 +2,7 @@
   import { PaymentsProvider, usePayments } from "../../context/PaymentsContext";
   import { AuthContext } from "../../context/AuthContext";
   import { addPayment, traineesList, fetchPayments, sessionsList } from "../../API/api"; // Add fetchSessions
-  import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+  import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
   import { Button } from "../../components/ui/Button";
   import { Select, SelectItem } from "../../components/ui/Select";
   import { Input } from "../../components/ui/Input";

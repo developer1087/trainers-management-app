@@ -6,3 +6,4 @@ export { default as TraineesPage } from "./pages/TraineesPage/TraineesPage";
 export { default as SingleTraineesPage } from "./pages/SingleTraineePage/SingleTraineePage";
 export { default as SessionsPage } from "./pages/SessionsPage/SessionsPage";
 export { default as SingleSessionPage } from "./pages/SingleSessionPage/SingleSessionPage";
+export { default as PaymentPage } from "./pages/PaymentPage/PaymentPage";
