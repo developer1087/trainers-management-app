@@ -33,6 +33,20 @@ const DashboardPage = () => {
   const totalRevenue = paymentsData.reduce((sum, p) => sum + (p.amount || 0), 0);
 
   useEffect(() => {
+    if (!user) return; // Exit early if no user
+    const fetchLocalTrainerData = async () => {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+          setUserData(userDocSnap.data());
+        } else {
+          console.log("No user document found!");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
     const fetchData = async () => {
       try {
         const [traineesListData, paymentsListData, sessionsListData] = await Promise.all([
@@ -51,6 +65,7 @@ const DashboardPage = () => {
 
     if (user) {
       fetchData();
+      fetchLocalTrainerData();
     }
   }, [user, setPaymentsData, setTraineesData, setSessionsData]); 
 
@@ -66,7 +81,7 @@ const DashboardPage = () => {
   return (
     <div className="main-dash-container">
       <div className="top-container">
-        <h1>Welcome {userData?.name || "Trainer"}</h1>
+        <h1>Welcome {userData? userData.name : "Trainer"}</h1>
         <p>Let's get things done!</p>
         <div className="stats-container">
           <div className="single-stat" id="tasks-stat">
