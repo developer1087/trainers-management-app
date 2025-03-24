@@ -11,6 +11,7 @@ import SessionsPage from "./pages/SessionsPage/SessionsPage";
 import Navbar from "./components/Navbar/Navbar";
 import SingleSessionPage from "./pages/SingleSessionPage/SingleSessionPage";
 import  PaymentPage  from "./pages/PaymentPage/PaymentPage";
+import CalendarPage from "./pages/CalendarPage/CalendarPage";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "traineesPage",
         element: <TraineesPage />,
+      },
+      {
+        path: "calendarPage",
+        element: <CalendarPage />,
       },
       {
         path: "singleTraineePage",

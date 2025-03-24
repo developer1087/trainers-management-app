@@ -77,11 +77,14 @@ const AddSessionForm = ({ traineesData, addSession, setOpenSessionForm }) => {
                       value={trainee}
                     >
                       <SelectItem value="">בחר מתאמן</SelectItem>
-                      {traineesData.map((trainee) => (
+                      {traineesData && traineesData.length > 0 ? (
+                        traineesData.map((trainee) => (
                         <SelectItem key={trainee.id} value={trainee.id}>
                           {trainee.fname} {trainee.lname}
                         </SelectItem>
-                      ))}
+                        ))) : (
+                        <SelectItem value="">No Trainees</SelectItem>
+                      )}
                     </Select>
         <button type="submit" className="input-submit session-submit">
           Save Session

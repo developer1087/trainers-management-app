@@ -7,3 +7,4 @@ export { default as SingleTraineesPage } from "./pages/SingleTraineePage/SingleT
 export { default as SessionsPage } from "./pages/SessionsPage/SessionsPage";
 export { default as SingleSessionPage } from "./pages/SingleSessionPage/SingleSessionPage";
 export { default as PaymentPage } from "./pages/PaymentPage/PaymentPage";
+export { default as CalendarPage } from "./pages/CalendarPage/CalendarPage";

@@ -14,6 +14,7 @@ const SingleSession = ({ session, traineesData }) => {
         <p>Date: {session.date}</p>
         <p>Time: {session.time}</p>
         <p>Session: {session.name}</p>
+        <p>Price: {session.price}</p>
         {/* <p>
           Trainee: {trainee.fname} {trainee.lname}
         </p> */}
