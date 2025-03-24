@@ -30,30 +30,27 @@ const EditTrainerProfile = () => {
   const onSubmit = async (data) => {
     if (!user) return;
     setLoading(true);
-
+  
     try {
       const userRef = doc(db, `users/${user.uid}`);
-
-      // אם המשתמש שינה אימייל - נדרש אימות מחדש
+  
       if (data.email !== user.email) {
         const password = prompt("Enter your password to confirm email change:");
         if (!password) throw new Error("Password is required for email change.");
-
+  
+        // Reauthenticate
         const credential = EmailAuthProvider.credential(user.email, password);
-        await reauthenticateWithCredential(user, credential); // אימות מחדש
+        await reauthenticateWithCredential(user, credential);
+  
+        // Send verification to NEW email BEFORE updating
+        await sendEmailVerification(user, { url: "YOUR_APP_REDIRECT_URL" });
         
-        // עדכון האימייל + שליחת אימייל אימות
-        await updateEmail(user, data.email);
-        await sendEmailVerification(user);
-        alert("A verification email has been sent. Please verify before the change takes effect.");
+        alert("A verification email has been sent. Confirm the new email first.");
+        return; // Exit early to prevent Firestore update
       }
-
-      // עדכון הנתונים ב-Firestore
-      await updateDoc(userRef, {
-        name: data.name,
-        phone: data.phone,
-      });
-
+  
+      // Update Firestore (if email didn't change)
+      await updateDoc(userRef, { name: data.name, phone: data.phone });
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -62,6 +59,7 @@ const EditTrainerProfile = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="edit-profile-container">
