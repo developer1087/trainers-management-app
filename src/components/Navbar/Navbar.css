@@ -92,11 +92,25 @@
 
 /* תפריט המבורגר והמסך המובייל */
 .hamburger-icon {
-  font-size: 1.5rem;
-  color: #fcfcfc;
+  font-size: 1.8rem;
   cursor: pointer;
   display: none;
   background: var(--primary-dark);
+  border: none;
+  transition: transform 0.3s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.hamburger-icon path {
+  border: none;
+  padding: 0;
+  margin: 0;
+  fill: var(--primary-color);
+
+}
+.hamburger-icon:hover {
+  transform: scale(1.1);
 }
 
 .mobile-menu {

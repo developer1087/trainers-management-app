@@ -78,8 +78,8 @@ const Navbar = () => {
 
         {isMobile ? (
           <>
-            <div className="hamburger-icon" onClick={toggleMenu}>
-              <FontAwesomeIcon icon={faBars} />
+            <div onClick={toggleMenu}>
+              <FontAwesomeIcon icon={faBars} className="hamburger-icon" />
             </div>
 
             {isMenuOpen && (
