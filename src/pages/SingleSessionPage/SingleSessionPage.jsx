@@ -19,11 +19,6 @@ const SingleSessionPage = () => {
   const { traineesData } = useContext(TraineesContext);
   const { updateSession, deleteSession } = useContext(SessionsContext);
 
-  useEffect(() => {
-    console.log("Trainees data:", traineesData);
-    console.log("Session data:", session);
-  }, [traineesData, session]);
-
   const handleUpdateSession = async (updatedSession) => {
     await updateSession(updatedSession, session.id);
     setSession((prev) => ({ ...prev, ...setIsEditSession(false) }));
@@ -55,7 +50,7 @@ const SingleSessionPage = () => {
         <p>Session: {session.name}</p>
         <p>Price: {session.price}</p>
         <p>Description: {session.description}</p>
-        <p>{getTraineeName()}</p>
+        <p>Name: {getTraineeName()}</p>
       </div>
       <div className="session-actions">
         <button className="btn" onClick={handleEditSession}>

@@ -22,14 +22,12 @@
       const fetchData = async () => {
         try {
           setLoading(true);
-          
           // Fetch trainees, payments, and sessions data
           const [traineesListData, paymentsListData, sessionsListData] = await Promise.all([
             traineesList(user.uid),
             fetchPayments(user.uid),
             sessionsList(user.uid) // You'll need to implement this API function
           ]);
-          
           setTrainees(traineesListData);
           setPaymentsData(paymentsListData);
           setSessions(sessionsListData);
@@ -39,13 +37,12 @@
           setLoading(false);
         }
       };
-
       if (user) {
         fetchData();
       }
     }, [user, setPaymentsData]);
 
-    // Update filtered sessions when trainee is selected
+    // Set amount based on selected session
     useEffect(() => {
       if (!traineeId) {
         setFilteredSessions([]);
@@ -53,48 +50,48 @@
         setAmount("");
         return;
       }
+    
+      const unpaidSessions = sessions.filter(session => {
+        return session.traineeId === traineeId && 
+               paymentsData
+                 .filter(payment => payment.sessionId === session.id)
+                 .reduce((sum, payment) => sum + Number(payment.amount || 0), 0) < Number(session.price);
+      });
       
-      const traineeSpecificSessions = sessions.filter(session => session.traineeId === traineeId);
-      setFilteredSessions(traineeSpecificSessions);
+    
+      setFilteredSessions(unpaidSessions);
       setSessionId("");
       setAmount("");
-    }, [traineeId, sessions]);
-
-    // Set amount based on selected session
-    useEffect(() => {
-      if (!sessionId) {
-        setAmount("");
-        return;
-      }
-      
-      const selectedSession = sessions.find(session => session.id === sessionId);
-      if (selectedSession && selectedSession.price) {
-        setAmount(selectedSession.price.toString());
-      }
-    }, [sessionId, sessions]);
+    }, [traineeId, sessions, paymentsData]);
 
     if (!user) return <p className="text-center text-lg font-semibold">טוען נתונים...</p>;
 
-    const totalRevenue = paymentsData.reduce((sum, p) => sum + (p.amount || 0), 0);
+    const handleAddPayment = async () => {
+      if (!traineeId || !sessionId || !amount || isNaN(amount) || parseFloat(amount) <= 0) {
+        return alert("נא להזין פרטים תקינים");
+      }
+    
+      try {
+        const paymentId = await addPayment(user.uid, traineeId, sessionId, parseFloat(amount));
+    
+        // עדכון סכום התשלום ברשימת האימונים
+        const updatedSessions = sessions.map(session => 
+          session.id === sessionId 
+            ? { ...session, price: Math.max(0, Number(session.price) - parseFloat(amount)) } 
+            : session
+        );
+    
+        setSessions(updatedSessions);
+        setPaymentsData([...paymentsData, { id: paymentId, traineeId, sessionId, amount: parseFloat(amount) }]);
+        
+        setSessionId("");
+        setAmount("");
+      } catch (error) {
+        console.error("שגיאה בהוספת תשלום:", error);
+      }
+    };
+    
 
-    const filteredPayments = traineeId
-      ? paymentsData.filter((p) => p.traineeId === traineeId)
-      : paymentsData;
-
-      const handleAddPayment = async () => {
-        if (!traineeId || !sessionId || !amount || isNaN(amount) || parseFloat(amount) <= 0) {
-          return alert("נא להזין פרטים תקינים");
-        }
-
-        try {
-          const paymentId = await addPayment(user.uid, traineeId, sessionId, parseFloat(amount));
-          setPaymentsData([...paymentsData, { id: paymentId, traineeId, sessionId, amount: parseFloat(amount) }]);
-          setSessionId("");
-          setAmount("");
-        } catch (error) {
-          console.error("שגיאה בהוספת תשלום:", error);
-        }
-      };
 
     // Create maps for trainee and session data
     const traineeMap = {};
@@ -111,7 +108,7 @@
    const calculateTotalDebt = () => {
     if (!traineeId) return 0;
     const traineeSessions = sessions.filter(session => session.traineeId === traineeId);
-    return traineeSessions.reduce((sum, session) => sum + (session.price || 0), 0);
+    return traineeSessions.reduce((sum, session) => sum + Number(session.price || 0), 0);
   };
 
   // Calculate total payments for selected trainee
@@ -148,14 +145,8 @@
               </SelectItem>
             ))}
           </Select>
-
-        
-
           <div className="mt-6 space-y-2">
-            <h3 className="text-lg font-semibold">הוספת תשלום חדש</h3>
-            
-         
-            
+            <h3 className="text-lg font-semibold">הוספת תשלום חדש</h3>        
             <div className="mb-2">
               <label className="block text-sm font-medium mb-1">בחר אימון</label>
               <Select 

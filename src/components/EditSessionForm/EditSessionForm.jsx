@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-
+import { useEffect } from "react";
+import { traineesList } from "../../API/api";
 import "./EditSessionForm.css";
+import { Select, SelectItem } from "../../components/ui/Select";
 
 const EditSessionForm = ({
   setIsEditSession,
@@ -10,13 +12,30 @@ const EditSessionForm = ({
   id,
   name,
   price,
+  traineeId,
   description,
 }) => {
+  const [trainees, setTrainees] = useState([]);
   const [sessionDate, setSessionDate] = useState(date);
   const [sessionTime, setSessionTime] = useState(time);
   const [sessionName, setSessionName] = useState(name);
   const [sessionPrice, setSessionPrice] = useState(price);
-  const [sessionDescription, setSessionDescription] = useState(description);
+  const [sessionDescription, setSessionDescription] = useState(description || "");
+  const [sessionTraineeId, setSessionTraineeId] = useState(traineeId || "");
+
+  useEffect(() => {
+    const fetchTrainees = async () => {
+      try {
+        const traineesListData = await traineesList();
+        setTrainees(traineesListData);
+      } catch (error) {
+        console.error("Error fetching trainees data:", error);
+      }
+    };
+    fetchTrainees();
+  }, []);
+
+ 
 
   const handleEditSessionSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +44,8 @@ const EditSessionForm = ({
       time: sessionTime,
       name: sessionName,
       description: sessionDescription,
+      price: sessionPrice,
+      traineeId: sessionTraineeId,
     };
     updateSession(updatedSession, id);
     setIsEditSession(false);
@@ -79,6 +100,17 @@ const EditSessionForm = ({
           onChange={(e) => setSessionDescription(e.target.value)}
           className="input-field"
         />
+        <Select
+          onValueChange={(value) => setSessionTraineeId(value)}
+          value={sessionTraineeId}
+        >
+                      <SelectItem value="">בחר מתאמן</SelectItem>
+                      {trainees.map((trainee) => (
+                        <SelectItem key={trainee.id} value={trainee.id}>
+                          {trainee.fname} {trainee.lname}
+                        </SelectItem>
+                      ))}
+                    </Select>
         <button type="submit" className="btn">
           Save Changes
         </button>

@@ -85,23 +85,26 @@ const CalendarPage = () => {
   
   
   const handleSelectSlot = ({ start }) => {
-    console.log("Selected slot:", start); // בדיקה שהפונקציה מופעלת
+    console.log("Selected slot:", start);
     setSelectedSlot(start);
+    setOpenSessionForm(true);
   };
 
   if (!user || loading) return <div>Loading...</div>;
 
   return (
     <div className="calendar-container">
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 600 }}
-        selectable
-        onSelectSlot={handleSelectSlot}
-      />
+     <Calendar
+  localizer={localizer}
+  events={events}
+  startAccessor="start"
+  endAccessor="end"
+  style={{ height: 600 }}
+  selectable
+  onSelectSlot={handleSelectSlot} // בחירת סלוט
+  onSelecting={() => false} // מונע בחירה של כמה סלוטים בטעות
+  onSelectEvent={(event) => console.log("Clicked event:", event)} // בדיקה אם אפשר ללחוץ על אירוע
+/>
 
       {selectedSlot && (
         <div className="modal">
@@ -127,7 +130,6 @@ const CalendarWrapper = () => {
     <AuthProvider>
       <TraineesProvider>
         <SessionsProvider>
-
           <CalendarPage />
         </SessionsProvider>
       </TraineesProvider>

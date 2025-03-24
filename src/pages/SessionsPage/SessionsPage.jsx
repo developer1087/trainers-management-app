@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import {
   SessionsContext,
   SessionsProvider,
@@ -8,12 +9,31 @@ import {
   TraineesProvider,
 } from "../../context/TraineesContext";
 import SingleSession from "../../components/SingleSession/SingleSession";
-
+import { traineesList } from "../../API/api";
 import "./SessionsPage.css";
+import { use } from "react";
 
 const SessionsPage = () => {
+  const { user } = useContext(AuthContext);
   const { sessionsData } = useContext(SessionsContext);
-  const { traineesData } = useContext(TraineesContext);
+  const { traineesData, setTraineesData } = useContext(TraineesContext);
+
+  useEffect(() => {
+    if (!user) return; // Exit early if no user
+
+    const fetchTrainees = async () => {
+      try {
+      const [traineesListData] = await Promise.all([traineesList(user.uid)]);
+      setTraineesData(traineesListData);
+    } catch (error) {
+      console.error("Error fetching trainees data:", error);
+    }
+  };
+  if (user) {
+    fetchTrainees();
+  }
+} ,[user, setTraineesData]);
+
 
   return (
     <div className="main-sessions-container">

@@ -15,9 +15,9 @@ const SingleSession = ({ session, traineesData }) => {
         <p>Time: {session.time}</p>
         <p>Session: {session.name}</p>
         <p>Price: {session.price}</p>
-        {/* <p>
-          Trainee: {trainee.fname} {trainee.lname}
-        </p> */}
+         <p>
+          Trainee: {trainee?.fname} {trainee?.lname}
+        </p> 
       </div>
     </Link>
   );
