@@ -43,7 +43,7 @@ const EditTrainerProfile = () => {
         await reauthenticateWithCredential(user, credential);
   
         // Send verification to NEW email BEFORE updating
-        await sendEmailVerification(user, { url: "YOUR_APP_REDIRECT_URL" });
+        await sendEmailVerification(user, { url: "https://fitness-trainers-managemetn-app.netlify.app/profile" });
         
         alert("A verification email has been sent. Confirm the new email first.");
         return; // Exit early to prevent Firestore update

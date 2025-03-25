@@ -57,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "paymentsPage",
         element: <PaymentPage />,
+      },
+      {
+        path: "profile",
+        element: <EditTrainerProfile />, 
       }
     ],
   },
