@@ -13,6 +13,7 @@ import SingleSessionPage from "./pages/SingleSessionPage/SingleSessionPage";
 import PaymentPage  from "./pages/PaymentPage/PaymentPage";
 import CalendarPage from "./pages/CalendarPage/CalendarPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import ResetPasswordPage from "./pages/ResetPasswordPage/ResetPasswordPage";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <ProfilePage />, 
+      },
+      {
+        path: "reset-password",
+        element: <ResetPasswordPage />,
       }
     ],
   },
