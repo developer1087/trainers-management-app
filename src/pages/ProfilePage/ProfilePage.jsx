@@ -1,26 +1,36 @@
 import { useEffect } from "react";
-import { getAuth } from "firebase/auth";
-
+import { getAuth, applyActionCode } from "firebase/auth";
+    
 const ProfilePage = () => {
   useEffect(() => {
-    const auth = getAuth();
-    const currentUser = auth.currentUser;
+    const handleVerification = async () => {
+      const auth = getAuth();
+      const queryParams = new URLSearchParams(window.location.search);
+      const oobCode = queryParams.get("oobCode");
 
-    const reloadUser = async () => {
+      if (!oobCode) {
+        alert("Invalid verification link.");
+        return;
+      }
+
       try {
-        await currentUser.reload(); // Refresh user state
-        console.log(`Updated Email: ${currentUser.email}`);
-        alert(`Your email has been successfully updated.`);
+        // Apply action code to confirm email change
+        await applyActionCode(auth, oobCode);
+
+        // Reload user object to reflect changes
+        await auth.currentUser.reload();
+
+        alert(`Your email has been successfully updated to ${auth.currentUser.email}.`);
       } catch (error) {
-        console.error("Error reloading user:", error);
-        alert("Failed to update email. Please try again.");
+        console.error("Error verifying email:", error);
+        alert(error.message);
       }
     };
 
-    reloadUser();
+    handleVerification();
   }, []);
 
-  return <div>Your profile page content here...</div>;
+  return <div>Email verification in progress...</div>;
 };
 
 export default ProfilePage;

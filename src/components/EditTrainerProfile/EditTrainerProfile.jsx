@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { db } from "../../config/config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { updateEmail, reauthenticateWithCredential, EmailAuthProvider, verifyBeforeUpdateEmail } from "firebase/auth";
+import { verifyBeforeUpdateEmail, applyActionCode, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { AuthContext } from "../../context/AuthContext";
 
 const EditTrainerProfile = () => {
@@ -12,7 +12,7 @@ const EditTrainerProfile = () => {
 
   useEffect(() => {
     if (!user) return;
-    
+
     setValue("email", user.email || "");
 
     const fetchData = async () => {
@@ -27,47 +27,41 @@ const EditTrainerProfile = () => {
     fetchData();
   }, [user, setValue]);
 
-const onSubmit = async (data) => {
-  if (!user) return;
-  setLoading(true);
-  try {
-    const userRef = doc(db, `users/${user.uid}`);
-    if (data.email !== user.email) {
-      const password = prompt("Enter your password to confirm email change:");
-      if (!password) throw new Error("Password is required for email change.");
-      // Reauthenticate
-      const credential = EmailAuthProvider.credential(user.email, password);
-      await reauthenticateWithCredential(user, credential);
-      // Send verification to NEW email and update it after verification
-      await verifyBeforeUpdateEmail(user, data.email, {
-        url: "https://fitness-trainers-managemetn-app.netlify.app/profile", // Redirect URL after verification
-        handleCodeInApp: true, // If you want to handle the action code in your app
-      });
-      alert("A verification email has been sent to your new email address. Please verify it before the change takes effect.");
-      return; // Exit early to prevent Firestore update until verification is complete
-    }
-    // Update Firestore (if no email change)
-    await updateDoc(userRef, { name: data.name, phone: data.phone });
-    alert("Profile updated successfully!");
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    alert(error.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  const onSubmit = async (data) => {
+    if (!user) return;
+    setLoading(true);
 
-const handleVerificationRedirect = async () => {
-  try {
-    await user.reload(); // Refresh user authentication state
-    const updatedEmail = user.email; // Get updated email
-    console.log(`Updated Email: ${updatedEmail}`);
-    alert(`Your email has been successfully updated to ${updatedEmail}.`);
-  } catch (error) {
-    console.error("Error reloading user:", error);
-    alert("Failed to reload user state. Please try signing out and back in.");
-  }
-};
+    try {
+      const userRef = doc(db, `users/${user.uid}`);
+
+      if (data.email !== user.email) {
+        const password = prompt("Enter your password to confirm email change:");
+        if (!password) throw new Error("Password is required for email change.");
+
+        // Reauthenticate
+        const credential = EmailAuthProvider.credential(user.email, password);
+        await reauthenticateWithCredential(user, credential);
+
+        // Send verification to NEW email
+        await verifyBeforeUpdateEmail(user, data.email, {
+          url: "https://fitness-trainers-managemetn-app.netlify.app/profile", // Redirect URL
+          handleCodeInApp: true,
+        });
+
+        alert("A verification email has been sent to your new email address. Please verify it before the change takes effect.");
+        return; // Exit early to prevent Firestore update until verification is complete
+      }
+
+      // Update Firestore (if no email change)
+      await updateDoc(userRef, { name: data.name, phone: data.phone });
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="edit-profile-container">

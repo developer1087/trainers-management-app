@@ -122,9 +122,14 @@ export const addSession = async (sessionData) => {
 
   if (user) {
     try {
+      const sessionWithPaymentStatus = { 
+        ...sessionData, 
+        isPaid: false // ברירת מחדל - האימון לא שולם
+      };
+
       const docRef = await addDoc(
         collection(db, `users/${user.uid}/sessions`),
-        sessionData
+        sessionWithPaymentStatus
       );
       console.log("Document written with ID:", docRef.id);
       return docRef.id;
@@ -180,6 +185,18 @@ export const fetchPayments = async (userId) => {
   }
 };
 
+export const markSessionAsPaid = async (userId, sessionId) => {
+  try {
+    const sessionRef = doc(db, `users/${userId}/sessions/${sessionId}`);
+    await updateDoc(sessionRef, { isPaid: true });
+    console.log(`Session ${sessionId} marked as paid.`);
+  } catch (error) {
+    console.error("Error marking session as paid:", error);
+    throw error;
+  }
+};
+
+
 export const addPayment = async (userId, traineeId, sessionId, amount) => {
   try {
     const paymentsRef = collection(db, `users/${userId}/payments`);
@@ -193,6 +210,12 @@ export const addPayment = async (userId, traineeId, sessionId, amount) => {
 
     const docRef = await addDoc(paymentsRef, newPayment);
     console.log("Payment added with ID:", docRef.id);
+
+    // אם יש אימון, נסמן אותו כשולם
+    if (sessionId) {
+      await markSessionAsPaid(userId, sessionId);
+    }
+
     return docRef.id;
   } catch (error) {
     console.error("Error adding payment:", error);
