@@ -42,14 +42,17 @@ const EditTrainerProfile = () => {
         const credential = EmailAuthProvider.credential(user.email, password);
         await reauthenticateWithCredential(user, credential);
   
-        // Send verification to NEW email BEFORE updating
-        await sendEmailVerification(user, { url: "https://fitness-trainers-managemetn-app.netlify.app/profile" });
-        
-        alert("A verification email has been sent. Confirm the new email first.");
-        return; // Exit early to prevent Firestore update
+        // Update the email first
+        await updateEmail(user, data.email);
+  
+        // Send verification email to the NEW email
+        await sendEmailVerification(user);
+  
+        alert("A verification email has been sent to your new email. Please verify before changes take effect.");
+        return; // Exit early
       }
   
-      // Update Firestore (if email didn't change)
+      // Update Firestore if no email change
       await updateDoc(userRef, { name: data.name, phone: data.phone });
       alert("Profile updated successfully!");
     } catch (error) {
@@ -60,7 +63,6 @@ const EditTrainerProfile = () => {
     }
   };
   
-
   return (
     <div className="edit-profile-container">
       <h2 className="edit-profile-title">Edit Profile</h2>
