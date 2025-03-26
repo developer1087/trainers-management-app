@@ -10,8 +10,9 @@ import SingleTraineePage from "./pages/SingleTraineePage/SingleTraineePage";
 import SessionsPage from "./pages/SessionsPage/SessionsPage";
 import Navbar from "./components/Navbar/Navbar";
 import SingleSessionPage from "./pages/SingleSessionPage/SingleSessionPage";
-import  PaymentPage  from "./pages/PaymentPage/PaymentPage";
+import PaymentPage  from "./pages/PaymentPage/PaymentPage";
 import CalendarPage from "./pages/CalendarPage/CalendarPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <EditTrainerProfile />, 
+        element: <ProfilePage />, 
       }
     ],
   },

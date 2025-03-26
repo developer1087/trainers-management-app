@@ -57,6 +57,18 @@ const onSubmit = async (data) => {
   }
 };
 
+const handleVerificationRedirect = async () => {
+  try {
+    await user.reload(); // Refresh user authentication state
+    const updatedEmail = user.email; // Get updated email
+    console.log(`Updated Email: ${updatedEmail}`);
+    alert(`Your email has been successfully updated to ${updatedEmail}.`);
+  } catch (error) {
+    console.error("Error reloading user:", error);
+    alert("Failed to reload user state. Please try signing out and back in.");
+  }
+};
+
   return (
     <div className="edit-profile-container">
       <h2 className="edit-profile-title">Edit Profile</h2>
