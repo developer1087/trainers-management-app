@@ -1,9 +1,7 @@
 import React, { useContext, useState } from "react";
-import { auth, app } from "../../config/config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
   getAuth,
 } from "firebase/auth";
 import { useNavigate } from "react-router";
@@ -18,6 +16,7 @@ const AuthPage = () => {
   const [action, setAction] = useState(isNew ? "Register" : "Login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const auth = getAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +27,7 @@ const AuthPage = () => {
           // Signed up
           const user = userCredential.user;
           setUser(user);
-          onAuthStateChanged((user) => {
+          auth.onAuthStateChanged((user) => {
             if (!user) {
               window.location.href = "/login";
             }
