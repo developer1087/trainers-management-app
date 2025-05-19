@@ -27,6 +27,14 @@ const router = createBrowserRouter([
     element: <AuthPage />,
   },
   {
+    path: "verify-email",
+    element: <EmailVerificationHandler />,
+  },
+  {
+    path: "reset-password",
+    element: <ResetPasswordPage />,
+  },
+  {
     path: "/",
     element: <NavbarWrapper />,
     children: [
@@ -65,14 +73,6 @@ const router = createBrowserRouter([
       {
         path: "edit-profile",
         element: <EditTrainerProfile/>,
-      },
-      {
-        path: "verify-email",
-        element: <EmailVerificationHandler />,
-      },      
-      {
-        path: "reset-password",
-        element: <ResetPasswordPage />,
       }
     ],
   },

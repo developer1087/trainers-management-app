@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../config/config";
-import { applyActionCode, isSignInWithEmailLink } from "firebase/auth";
+import { applyActionCode, signInWithEmailLink } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 const EmailVerificationHandler = () => {
@@ -29,12 +29,24 @@ const EmailVerificationHandler = () => {
           // Update email in Firestore
           const userRef = doc(db, `users/${user.uid}`);
           await setDoc(userRef, { email: newEmail }, { merge: true });
+          
+          setVerificationStatus("success");
+          setTimeout(() => {
+            navigate('/profile');
+          }, 2000);
+        } else {
+          // If user is not authenticated, try to sign them in
+          try {
+            await signInWithEmailLink(auth, newEmail, window.location.href);
+            setVerificationStatus("success");
+            setTimeout(() => {
+              navigate('/profile');
+            }, 2000);
+          } catch (signInError) {
+            console.error("Error signing in:", signInError);
+            setVerificationStatus("error");
+          }
         }
-        
-        setVerificationStatus("success");
-        setTimeout(() => {
-          navigate('/profile');
-        }, 2000);
       } catch (error) {
         console.error("Error verifying email:", error);
         setVerificationStatus("error");
