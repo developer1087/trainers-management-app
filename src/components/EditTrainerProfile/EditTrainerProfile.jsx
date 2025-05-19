@@ -2,17 +2,19 @@ import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { db } from "../../config/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { reauthenticateWithCredential, EmailAuthProvider, verifyBeforeUpdateEmail } from "firebase/auth";
+import { reauthenticateWithCredential, EmailAuthProvider, verifyBeforeUpdateEmail, applyActionCode, isSignInWithEmailLink } from "firebase/auth";
 import { AuthContext } from "../../context/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/Card";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
+import { useNavigate } from "react-router-dom";
 
 const EditTrainerProfile = () => {
   const { register, handleSubmit, setValue } = useForm();
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) return;
@@ -47,7 +49,7 @@ const EditTrainerProfile = () => {
         await reauthenticateWithCredential(user, credential);
         // Send verification to NEW email and update it after verification
         const actionCodeSettings = {
-          url: "https://fitness-trainers-managemetn-app.netlify.app/verify-email",
+          url: `${window.location.origin}/verify-email?newEmail=${encodeURIComponent(data.email)}`,
           handleCodeInApp: true,
         };
         await verifyBeforeUpdateEmail(user, data.email, actionCodeSettings);
@@ -70,6 +72,34 @@ const EditTrainerProfile = () => {
       setLoading(false);
     }
   };
+
+  // Handle email verification
+  useEffect(() => {
+    const handleEmailVerification = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const newEmail = urlParams.get('newEmail');
+      const oobCode = urlParams.get('oobCode');
+
+      if (oobCode && newEmail) {
+        try {
+          // Apply the action code
+          await applyActionCode(user, oobCode);
+          
+          // Update email in Firestore
+          const userRef = doc(db, `users/${user.uid}`);
+          await setDoc(userRef, { email: newEmail }, { merge: true });
+          
+          alert("Email successfully verified and updated!");
+          navigate('/profile'); // Redirect to profile page
+        } catch (error) {
+          console.error("Error verifying email:", error);
+          alert("Failed to verify email. Please try again.");
+        }
+      }
+    };
+
+    handleEmailVerification();
+  }, [user, navigate]);
 
   return (
     <Card className="p-4">
