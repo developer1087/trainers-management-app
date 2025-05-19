@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import "./WelcomePage.css";
 import { AuthContext } from "../../context/AuthContext";
@@ -7,10 +7,14 @@ import { AuthContext } from "../../context/AuthContext";
 const WelcomePage = () => {
   const { setIsNew, user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  if (user) {
-    navigate("/dashboardPage");
-  }
+  useEffect(() => {
+    // Don't redirect if we're on the verification page
+    if (user && !location.pathname.includes('verify-email')) {
+      navigate("/dashboardPage");
+    }
+  }, [user, navigate, location]);
 
   const handleLogin = () => {
     setIsNew(false);
