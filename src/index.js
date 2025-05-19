@@ -10,3 +10,4 @@ export { default as PaymentPage } from "./pages/PaymentPage/PaymentPage";
 export { default as CalendarPage } from "./pages/CalendarPage/CalendarPage";
 export { default as ProfilePage } from "./pages/ProfilePage/ProfilePage";
 export { default as ResetPasswordPage } from "./pages/ResetPasswordPage/ResetPasswordPage";
+export { default as EmailVerificationHandler } from "./components/EmailVerificationHandler/EmailVerificationHandler";

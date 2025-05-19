@@ -14,6 +14,8 @@ import PaymentPage  from "./pages/PaymentPage/PaymentPage";
 import CalendarPage from "./pages/CalendarPage/CalendarPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage/ResetPasswordPage";
+import EmailVerificationHandler from "./components/EmailVerificationHandler/EmailVerificationHandler";
+
 
 const router = createBrowserRouter([
   {
@@ -31,10 +33,6 @@ const router = createBrowserRouter([
       {
         path: "dashboardPage",
         element: <DashboardPage />,
-      },
-      {
-        path: "edit-profile",
-        element: <EditTrainerProfile/>,
       },
       {
         path: "traineesPage",
@@ -64,6 +62,14 @@ const router = createBrowserRouter([
         path: "profile",
         element: <ProfilePage />, 
       },
+      {
+        path: "edit-profile",
+        element: <EditTrainerProfile/>,
+      },
+      {
+        path: "verify-email",
+        element: <EmailVerificationHandler />,
+      },      
       {
         path: "reset-password",
         element: <ResetPasswordPage />,

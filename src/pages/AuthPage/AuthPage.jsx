@@ -46,8 +46,7 @@ const AuthPage = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          const auth = getAuth();
-          onAuthStateChanged(auth, (user) => {
+          auth.onAuthStateChanged((user) => {
             if (user) {
               setUser(user);
             } else {

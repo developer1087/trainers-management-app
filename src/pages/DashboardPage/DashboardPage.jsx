@@ -34,6 +34,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     if (!user) return; // Exit early if no user
+    
     const fetchLocalTrainerData = async () => {
       try {
         const userDocRef = doc(db, "users", user.uid);
