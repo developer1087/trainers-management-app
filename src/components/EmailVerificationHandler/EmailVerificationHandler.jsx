@@ -1,43 +1,61 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { auth, db } from "../../config/config";
-import { applyActionCode, signInWithEmailLink } from "firebase/auth";
+import { applyActionCode, signInWithEmailLink, updateEmail } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 const EmailVerificationHandler = () => {
   const [verificationStatus, setVerificationStatus] = useState("verifying");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleEmailVerification = async () => {
       try {
-        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(location.search);
         const newEmail = urlParams.get('newEmail');
         const oobCode = urlParams.get('oobCode');
 
+        console.log("Verification params:", { newEmail, oobCode });
+
         if (!oobCode || !newEmail) {
+          console.error("Missing verification parameters");
           setVerificationStatus("error");
           return;
         }
 
         // Apply the action code
         await applyActionCode(auth, oobCode);
+        console.log("Action code applied successfully");
         
         // Get the current user
         const user = auth.currentUser;
+        console.log("Current user:", user?.email);
+
         if (user) {
-          // Update email in Firestore
-          const userRef = doc(db, `users/${user.uid}`);
-          await setDoc(userRef, { email: newEmail }, { merge: true });
-          
-          setVerificationStatus("success");
-          setTimeout(() => {
-            navigate('/profile');
-          }, 2000);
+          try {
+            // Update email in Firebase Auth
+            await updateEmail(user, newEmail);
+            console.log("Email updated in Firebase Auth");
+
+            // Update email in Firestore
+            const userRef = doc(db, `users/${user.uid}`);
+            await setDoc(userRef, { email: newEmail }, { merge: true });
+            console.log("Email updated in Firestore");
+            
+            setVerificationStatus("success");
+            setTimeout(() => {
+              navigate('/profile');
+            }, 2000);
+          } catch (updateError) {
+            console.error("Error updating email:", updateError);
+            setVerificationStatus("error");
+          }
         } else {
-          // If user is not authenticated, try to sign them in
+          console.log("No user found, attempting to sign in");
           try {
             await signInWithEmailLink(auth, newEmail, window.location.href);
+            console.log("Sign in successful");
             setVerificationStatus("success");
             setTimeout(() => {
               navigate('/profile');
@@ -48,13 +66,13 @@ const EmailVerificationHandler = () => {
           }
         }
       } catch (error) {
-        console.error("Error verifying email:", error);
+        console.error("Error in verification process:", error);
         setVerificationStatus("error");
       }
     };
 
     handleEmailVerification();
-  }, [navigate]);
+  }, [navigate, location]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
