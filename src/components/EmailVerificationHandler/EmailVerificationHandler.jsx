@@ -13,13 +13,16 @@ const EmailVerificationHandler = () => {
   useEffect(() => {
     const handleVerification = async () => {
       try {
-        // Get the verification code and new email from the URL
+        // Get the verification code from the URL
         const urlParams = new URLSearchParams(location.search);
         const oobCode = urlParams.get('oobCode');
-        const newEmail = urlParams.get('newEmail');
+        
+        // Get the new email from localStorage
+        const newEmail = localStorage.getItem('pendingEmailChange');
 
         console.log("Starting verification process");
-        console.log("URL params:", { oobCode, newEmail });
+        console.log("URL params:", { oobCode });
+        console.log("New email from storage:", newEmail);
 
         if (!oobCode || !newEmail) {
           throw new Error("Missing verification parameters");
@@ -48,6 +51,9 @@ const EmailVerificationHandler = () => {
         const userRef = doc(db, `users/${user.uid}`);
         await setDoc(userRef, { email: newEmail }, { merge: true });
         console.log("Firestore updated successfully");
+
+        // Clear the stored email
+        localStorage.removeItem('pendingEmailChange');
 
         setVerificationStatus("success");
         setTimeout(() => {

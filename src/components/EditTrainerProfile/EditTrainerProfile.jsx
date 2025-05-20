@@ -50,9 +50,12 @@ const EditTrainerProfile = () => {
         
         // Send verification to NEW email
         const actionCodeSettings = {
-          url: `${window.location.origin}/verify-email?newEmail=${encodeURIComponent(data.email)}`,
+          url: `${window.location.origin}/verify-email`,
           handleCodeInApp: true,
         };
+        
+        // Store the new email in localStorage
+        localStorage.setItem('pendingEmailChange', data.email);
         
         console.log("Sending verification email with settings:", actionCodeSettings);
         await verifyBeforeUpdateEmail(user, data.email, actionCodeSettings);
