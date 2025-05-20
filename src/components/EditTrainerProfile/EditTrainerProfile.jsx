@@ -54,6 +54,7 @@ const EditTrainerProfile = () => {
           handleCodeInApp: true,
         };
         
+        console.log("Sending verification email with settings:", actionCodeSettings);
         await verifyBeforeUpdateEmail(user, data.email, actionCodeSettings);
         alert("A verification email has been sent to your new email address. Please check your inbox and click the verification link to complete the process.");
         return;
